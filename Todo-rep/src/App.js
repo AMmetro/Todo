@@ -3,30 +3,35 @@ import './App.css';
 import TodoList from './TodoList';
 import AddNewItemForm from "./AddNewItemForm";
 import {connect} from "react-redux";
-import {ADD_TODO, addTodoAC} from "./reducer";
+import {addTodoTC, getTodoListTC} from "./reducer";
+
 
 
 
 class App extends React.Component {
-                                                   
-       nextTodoListId=2;
-       AddTodoList= (newTitle)=> {
-        let newTodoList = {
-            id: this.nextTodoListId,
-            title: newTitle,
-            tasks: []
-        };
-        this.nextTodoListId++;
-        // this.setState({todoList:[...this.state.todoList, newTodoList]}, this.saveState);
-           this.props.addTodo(newTodoList);   // вместо закоменченоо локального стейта теперь в пропсы передеет... (вниз страницы)
+
+    nextTodoListId=2;
+    AddTodoList= (title)=> {
+        this.props.AddTodoList(title)
+    };
+
+    componentDidMount () {
+        this._restoreState()
+    }
+
+    saveState= ()=> {
+        let StateAsString=JSON.stringify(this.state);
+        localStorage.setItem("todolists-state", StateAsString);
+    };
+
+    _restoreState = () => {
+        this.props.getTodoList()
     };
 
 
-       render = () => {
-
+    render = () => {
         let todoList = this.props.todoList.map (elem => {
             return <TodoList id={elem.id} title={elem.title} key={elem.id} tasks={elem.tasks} />
-
         });
 
 
@@ -34,38 +39,51 @@ class App extends React.Component {
 
             <div className="App">
 
-              <AddNewItemForm addItems={this.AddTodoList}/>
+                <AddNewItemForm addItems={this.AddTodoList}/>
 
-              {todoList}
+                {todoList}
 
-             </div>     
-      )
-   }
+            </div>
+        )
+    }
 }
 
 // -------------------------------- отдельная компонента--------------------------------------
 
 const mapStateToProps = (state) => {
+
     return {
         todoList: state.todoList
+
     }
 };
-
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        // addTodo: (newTodoList) => {
+        //     dispatch (addTodoAC(newTodoList))
+        //
+        // },
 
-           addTodo: (newTodoList) => {
-           dispatch (addTodoAC(newTodoList))
+        // setTodoLists: (todoLists) => {
+        //     dispatch (setTodoListsAC(todoLists))
+        // },
 
-            //    const action = {
-            //     type: ADD_TODO,
-            //     newTodoList: newTodoList
-            // };
-            // dispatch(action)
-        }
+        getTodoList: ()=> {
+            dispatch (getTodoListTC())
+        },
+
+        AddTodoList: (title)=> {
+            dispatch (addTodoTC(title))
+        },
+
+
+
+
+
     }
 };
+
 
 
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);

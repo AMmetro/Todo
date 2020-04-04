@@ -3,13 +3,42 @@ import React from 'react';
 
 class TodoListTitle extends React.Component {
 
- 
-    render = () => {
-      
-        return (
+        state = {
+        editMode: false,
+        title: this.props.title
+    };
 
-                <div className="todoList-header">
-                     <h3 className="todoList-header__title">{this.props.title} List N{this.props.id}</h3>
+        activateEditMode = ()=> {this.setState( {editMode: true} ) };
+
+        deactivateEditMode = ()=> {
+        this.props.changeTodoTitle (this.props.todoId,this.state.title)
+        this.setState({editMode: false})
+    };
+
+    changeTodoTitle= (e)=> {
+        this.setState({title: e.currentTarget.value})
+    };
+
+    render = () => {
+        return (
+            <div className="todoList-header">
+
+            {this.state.editMode
+                    ? <input
+                        value={this.state.title}
+                        autoFocus={true}
+                        onBlur={this.deactivateEditMode}
+                        onChange={this.changeTodoTitle}
+                    />
+                    :  <span onClick={this.activateEditMode}> {this.state.title},</span>
+            }
+
+
+
+
+
+                      {/*<h3 className="todoList-header__title" onClick={this.props.onChange} >*/}
+                      {/*{this.props.title} List N{this.props.id}</h3>*/}
 
                  </div>
          );
