@@ -3,9 +3,8 @@ import './App.css';
 import TodoList from './TodoList';
 import AddNewItemForm from "./AddNewItemForm";
 import {connect} from "react-redux";
-import {addTodoAC, setTaskAC, setTodoListsAC} from "./reducer";
-import axios from "axios";
-import {api} from "./api/api";
+import {addTodoTC, getTodoListTC} from "./reducer";
+
 
 
 
@@ -13,12 +12,8 @@ class App extends React.Component {
 
     nextTodoListId=2;
     AddTodoList= (title)=> {
-        api.createTodoList(title)
-        .then(res => {
-                this.props.addTodo(res.data.data.item);
-            });
+        this.props.AddTodoList(title)
     };
-
 
     componentDidMount () {
         this._restoreState()
@@ -30,9 +25,8 @@ class App extends React.Component {
     };
 
     _restoreState = () => {
-        api.getTodoList().then(res => {
-            this.props.setTodoLists(res.data);
-        })};
+        this.props.getTodoList()
+    };
 
 
     render = () => {
@@ -64,19 +58,42 @@ const mapStateToProps = (state) => {
     }
 };
 
-
 const mapDispatchToProps = (dispatch) => {
     return {
-        addTodo: (newTodoList) => {
-            dispatch (addTodoAC(newTodoList))
+        // addTodo: (newTodoList) => {
+        //     dispatch (addTodoAC(newTodoList))
+        //
+        // },
 
+        // setTodoLists: (todoLists) => {
+        //     dispatch (setTodoListsAC(todoLists))
+        // },
+
+        getTodoList: ()=> {
+            dispatch (getTodoListTC())
         },
 
-        setTodoLists: (todoLists) => {
-            dispatch (setTodoListsAC(todoLists))
-        }
+        AddTodoList: (title)=> {
+            dispatch (addTodoTC(title))
+        },
+
+
+
+
+
     }
 };
+
+
+
+
+//
+// const mapStateToProps = (state) => {
+//     return {
+//         todolist: state.todolist.todolist
+//     }
+// }
+
 
 
 

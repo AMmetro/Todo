@@ -5,19 +5,8 @@ import TodoListTasks from "./TodoListTasks";
 import TodoListFooter from "./TodoListFooter";
 import TodoListTitle from "./TodoListTitle";
 import {connect} from "react-redux";
-import {
-    ADD_TASK,
-    addTaskAC,
-    CHANGE_TASK,
-    changeTaskAC,
-    DELETE_TASK,
-    DELETE_TODOLIST,
-    deleteTaskAC,
-    changeTodoTitleAC,
-    deleteTodoListAC, setTaskAC
-} from "./reducer";
-import axios from "axios";
-import {api} from "./api/api";
+import { changeTaskAC, changeTodoTitleAC, deleteTodoListAC, setTaskAC, setTaskTC, deleteTaskTC, deleteTodoListTC, addTaskTC, changeTodoTitleTC,
+    changeTaskTC} from "./reducer";
 
 
 class TodoList extends React.Component {
@@ -29,21 +18,15 @@ class TodoList extends React.Component {
 
     _restoreState2 = () => {
         let todolistId = this.props.id;
-
-        api._restoreState2(todolistId)
-            .then(res => {
-                let tasks = res.data.items;
-                this.props.setTasks(todolistId, tasks);
-            });
+        this.props.setTasks(todolistId);
 
         // let todolistId = this.props.id;
-        // axios.get(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`,
-        //     {withCredentials: true})
+        // api._restoreState2(todolistId)
         //     .then(res => {
         //         let tasks = res.data.items;
         //         this.props.setTasks(todolistId, tasks);
         //     });
-    };
+        };
 
 
     newTaskTitleRef = React.createRef();
@@ -59,13 +42,17 @@ class TodoList extends React.Component {
     changeTask = (task, obj) => {
         let updateTask = {...task, ...obj };
         let todoId=this.props.id
-        api.changeTask (task, updateTask, todoId)
-             .then(res => {
-                    if (res.data.resultCode === 0){
-                    let task = res.data.data.item;
-                    this.props.changeTask(task)
-                };
-            });
+        this.props.changeTask(task.id, updateTask, todoId)
+
+        // let updateTask = {...task, ...obj };
+        // let todoId=this.props.id
+        // api.changeTask (task, updateTask, todoId)
+        //      .then(res => {
+        //             if (res.data.resultCode === 0){
+        //             let task = res.data.data.item;
+        //             this.props.changeTask(task)
+        //         };
+        //     });
     };
 
     changeStatus = (task, isDone) => {
@@ -77,10 +64,11 @@ class TodoList extends React.Component {
     };
 
                   changeTodoTitle = (todoId, title) => {
-                   api.changeTodoTitle(todoId, title)
-                       .then(res => {
-                    this.props.changeTodoTitle(todoId, title);
-                              });
+                      this.props.changeTodoTitle(todoId, title);
+                    //   api.changeTodoTitle(todoId, title)
+                    //    .then(res => {
+                    // this.props.changeTodoTitle(todoId, title);
+                    //           });
                     };
 
 
@@ -90,35 +78,37 @@ class TodoList extends React.Component {
 
 
     addTask = (newText) => {
-        api.createTask (newText, this.props.id)
-            .then (res => {
-            let newTask = res.data.data.item;
-            this.props.addTask (this.props.id, newTask);
-        });
+        let todoId = this.props.id;
+        this.props.addTask (newText,todoId);
+
+
+        // api.createTask (newText, this.props.id)
+        //     .then (res => {
+        //     let newTask = res.data.data.item;
+        //     this.props.addTask (this.props.id, newTask);
+        // });
+
     };
 
 
     deleteTodoList = () => {
         let todolistId = this.props.id;
-        api.deleteTodolist(todolistId)
-         .then(res => {
-          if (res.data.resultCode === 0)
-          this.props.deleteTodoList(todolistId)
-        })
-        };
+        this.props.deleteTodoList(todolistId)
 
+        // let todolistId = this.props.id;
+        // api.deleteTodolist(todolistId)
+        //  .then(res => {
+        //   if (res.data.resultCode === 0)
+        //   this.props.deleteTodoList(todolistId)
+        // })
+
+    };
 
 
     deleteTask = (taskId) => {
         let todoId = this.props.id;
-        api.deleteTask(taskId,todoId)
-        .then(res => {
-         if (res.data.resultCode === 0)
-         this.props.deleteTask(taskId, todoId)
-        });
+        this.props.deleteTask(taskId, todoId)
     };
-
-
 
 
     render = () => {
@@ -180,49 +170,42 @@ class TodoList extends React.Component {
 const mapDispatchToProps = (dispatch) => {
     return {
 
-        setTasks: (todoListId, tasks) => {
-            dispatch(setTaskAC(todoListId, tasks))
+         setTasks: (todolistId) => {
+            dispatch(setTaskTC(todolistId))
         },
 
+        // setTasks: (todoListId, tasks) => {
+        //     dispatch(setTaskAC(todoListId, tasks))
+        // },
 
-        addTask: (todoId, newTask) => {
-            dispatch(addTaskAC(todoId, newTask))
-            // const action = {
-            //     type: ADD_TASK,
-            //     todoId,
-            //     newTask
-            // };
-            // dispatch(action)
-        },
+        addTask: (newText,todoId) => {
+                   dispatch(addTaskTC(newText,todoId))
+               },
 
         // changeTask: (task, obj, todoId) => {
         //     dispatch(changeTaskAC(task, obj, todoId))
         //     debugger
         // },
 
+//-------------------------------------
 
-        changeTask: (task) => {
-            dispatch(changeTaskAC(task))
-                    },
-
-        deleteTodoList: (todoId) => {
-            dispatch(deleteTodoListAC(todoId))
-            //  const action = {
-            //             //     type: DELETE_TODOLIST,
-            //             //     todoId
-            //             // };
-            //             // dispatch (action)
+        changeTask: (taskId, updateTask, todoId) => {
+            dispatch(changeTaskTC(taskId, updateTask, todoId))
         },
 
+        deleteTodoList: (todoId) => {
+            dispatch(deleteTodoListTC(todoId))
+        },
+
+
         deleteTask: (taskId, todoId) => {
-            dispatch(deleteTaskAC(taskId, todoId))
-                 },
+            dispatch(deleteTaskTC(taskId, todoId))
+        },
+
 
         changeTodoTitle: (todoId,title) => {
-            debugger
-           dispatch(changeTodoTitleAC(todoId, title))
+           dispatch(changeTodoTitleTC(todoId, title))
                  },
-
 
     }
 };
