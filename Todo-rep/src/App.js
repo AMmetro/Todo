@@ -4,8 +4,9 @@ import TodoList from './TodoList';
 import AddNewItemForm from "./AddNewItemForm";
 import {connect} from "react-redux";
 import {addTodoTC, getTodoListTC} from "./reducer";
-
-
+import PageHeader from "./Header/PageHeader";
+import PageFooter from "./Footer/PageFooter";
+import SideBar from "./SideBar/SadeBar"
 
 
 class App extends React.Component {
@@ -30,18 +31,26 @@ class App extends React.Component {
 
 
     render = () => {
-        let todoList = this.props.todoList.map (elem => {
+            let todoList = this.props.todoList.map (elem => {
             return <TodoList id={elem.id} title={elem.title} key={elem.id} tasks={elem.tasks} />
         });
 
 
         return (
+            <div className="App-container">
 
-            <div className="App">
+                <PageHeader/>
 
-                <AddNewItemForm addItems={this.AddTodoList}/>
+                <AddNewItemForm addItems={this.AddTodoList} />
 
-                {todoList}
+                <SideBar todoList={this.props.todoList} />
+
+                <div className="todoContainer">
+                    <h1> Current taskList </h1>
+                     {todoList}
+                </div>
+
+                <PageFooter/>
 
             </div>
         )
@@ -60,40 +69,17 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // addTodo: (newTodoList) => {
-        //     dispatch (addTodoAC(newTodoList))
-        //
-        // },
-
-        // setTodoLists: (todoLists) => {
-        //     dispatch (setTodoListsAC(todoLists))
-        // },
-
-        getTodoList: ()=> {
+            getTodoList: ()=> {
             dispatch (getTodoListTC())
         },
 
+
         AddTodoList: (title)=> {
-            dispatch (addTodoTC(title))
+           dispatch (addTodoTC(title))
         },
-
-
-
-
 
     }
 };
-
-
-
-
-//
-// const mapStateToProps = (state) => {
-//     return {
-//         todolist: state.todolist.todolist
-//     }
-// }
-
 
 
 

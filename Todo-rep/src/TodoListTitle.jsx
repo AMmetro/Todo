@@ -31,15 +31,8 @@ class TodoListTitle extends React.Component {
                         onChange={this.changeTodoTitle}
                     />
                     :  <span onClick={this.activateEditMode}> {this.state.title},</span>
-            }
-
-
-
-
-
-                      {/*<h3 className="todoList-header__title" onClick={this.props.onChange} >*/}
-                      {/*{this.props.title} List N{this.props.id}</h3>*/}
-
+                       }
+                <button onClick={this.props.deleteTodoList}>x</button>
                  </div>
          );
     }

@@ -1,10 +1,23 @@
-.App {
-  display: flex;
-  direction: row;
+.App-container {
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 80px 100px 500px 90px;
+  grid-template-areas:
+          "h h h h h "
+          "m c c c c"
+          "s c c c c"
+          "f f f f f";
+  background-color: cornflowerblue;
 }
 
+.mainName {
+  color: green
+}
+
+
 .TodoList {
-    width: 30px;
+    width: 800px;
   margin: 100px auto;
 }
 
@@ -26,3 +39,5 @@
 .error {
   border-color: red;
 }
+
+

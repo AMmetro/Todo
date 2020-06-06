@@ -35,7 +35,7 @@ class TodoListTask extends React.Component {
 
         return (
                 <div className="todoList-task">
-                    <input
+                                    <input
                         className={classForTask}
                         type="checkbox"
                         // checked={this.props.task.isDone}

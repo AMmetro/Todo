@@ -19,20 +19,12 @@ class TodoList extends React.Component {
     _restoreState2 = () => {
         let todolistId = this.props.id;
         this.props.setTasks(todolistId);
-
-        // let todolistId = this.props.id;
-        // api._restoreState2(todolistId)
-        //     .then(res => {
-        //         let tasks = res.data.items;
-        //         this.props.setTasks(todolistId, tasks);
-        //     });
         };
 
 
     newTaskTitleRef = React.createRef();
 
     nextTaskId = 0;
-
     state = {
         tasks: [],
         filterValue: "All"
@@ -43,16 +35,6 @@ class TodoList extends React.Component {
         let updateTask = {...task, ...obj };
         let todoId=this.props.id
         this.props.changeTask(task.id, updateTask, todoId)
-
-        // let updateTask = {...task, ...obj };
-        // let todoId=this.props.id
-        // api.changeTask (task, updateTask, todoId)
-        //      .then(res => {
-        //             if (res.data.resultCode === 0){
-        //             let task = res.data.data.item;
-        //             this.props.changeTask(task)
-        //         };
-        //     });
     };
 
     changeStatus = (task, isDone) => {
@@ -65,11 +47,7 @@ class TodoList extends React.Component {
 
                   changeTodoTitle = (todoId, title) => {
                       this.props.changeTodoTitle(todoId, title);
-                    //   api.changeTodoTitle(todoId, title)
-                    //    .then(res => {
-                    // this.props.changeTodoTitle(todoId, title);
-                    //           });
-                    };
+                                    };
 
 
     changeFilter = (newFilterValue) => {
@@ -78,30 +56,15 @@ class TodoList extends React.Component {
 
 
     addTask = (newText) => {
+
         let todoId = this.props.id;
         this.props.addTask (newText,todoId);
-
-
-        // api.createTask (newText, this.props.id)
-        //     .then (res => {
-        //     let newTask = res.data.data.item;
-        //     this.props.addTask (this.props.id, newTask);
-        // });
-
     };
 
 
     deleteTodoList = () => {
         let todolistId = this.props.id;
         this.props.deleteTodoList(todolistId)
-
-        // let todolistId = this.props.id;
-        // api.deleteTodolist(todolistId)
-        //  .then(res => {
-        //   if (res.data.resultCode === 0)
-        //   this.props.deleteTodoList(todolistId)
-        // })
-
     };
 
 
@@ -115,16 +78,16 @@ class TodoList extends React.Component {
 
         const {tasks = []} = this.props;
         return (
-            <div className="App">
-                <div className="todoList">
 
+                <div className="TodoList">
                     <div>
                         <TodoListTitle title={this.props.title}
                                        changeTodoTitle={this.changeTodoTitle}
-                                       todoId={this.props.id}  />
+                                       todoId={this.props.id}
+                                       deleteTodoList={this.deleteTodoList}
+                        />
                         <AddNewItemForm addItems={this.addTask} />
-                        <button onClick={this.deleteTodoList}>x</button>
-                    </div>
+                     </div>
 
                     <TodoListTasks
                         changeTitle={this.changeTitle}
@@ -145,26 +108,12 @@ class TodoList extends React.Component {
                         })
                         }
                     />
-
-
                     <TodoListFooter filterValue={this.state.filterValue}
                                     changeFilter={this.changeFilter}/>
-
                 </div>
-
-            </div>
         );
     }
 }
-
-//-----------------------------------------------------------------------------ent
-
-
-// const mapStateToProps = (state) => {
-//     return {
-//         tasks: state.todoList.tasks   - так передает сразу массив и его нужо MAПить
-//     }
-// };
 
 
 const mapDispatchToProps = (dispatch) => {
@@ -208,6 +157,7 @@ const mapDispatchToProps = (dispatch) => {
                  },
 
     }
+
 };
 
 
