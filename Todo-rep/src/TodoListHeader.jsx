@@ -19,7 +19,6 @@ class TodoListHeader extends React.Component {
         if (e.key === "Enter") {
             this.onAddTaskClick();
         }
-
     }
 
 
