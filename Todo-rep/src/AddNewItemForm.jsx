@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './Header.module.css'
 
 
 class AddNewItemForm extends React.Component {
@@ -15,7 +16,6 @@ class AddNewItemForm extends React.Component {
     };
 
   onAddItemClick = ()=> {
-
       let newTitle=this.state.title;
       this.setState({title:""});
 
@@ -37,15 +37,20 @@ class AddNewItemForm extends React.Component {
     render = () => {
         let classForInput = (this.state.error) === true ? "error" : "";
 
+
+
+
         return (
-                <div className="todoList-header">
-                     <h3 className="todoList-header__title">{this.props.title}</h3>
+                <div className={styles.header}>
+                     <h1 className="todoList-header__title">{this.props.title}</h1>
                     <div className="todoList-newTaskForm">
-                          <input ref={this.newTaskTitleRef} type="text" placeholder="New task name"
+                                <input ref={this.newTaskTitleRef} type="text" placeholder="New task name"
                                  className={classForInput} onChange={this.onTitleChanged}
                                  onKeyPress={this.pressEnter} value={this.state.title}/>
                             <button onClick={this.onAddItemClick} >Add</button>
                       </div>
+
+
                  </div>
          );
     }

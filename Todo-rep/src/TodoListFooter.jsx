@@ -27,6 +27,7 @@ class TodoListFooter extends React.Component {
 
        return (
 
+
             <div className="todoList-footer">
 
                 {!this.state.isHidden && <>
@@ -42,7 +43,6 @@ class TodoListFooter extends React.Component {
                 {this.state.isHidden && <span onClick={ this.onHideFiltersClick }>show</span>}
 
             </div>
-
         );
     }
 }

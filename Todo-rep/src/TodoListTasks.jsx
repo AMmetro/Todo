@@ -29,8 +29,8 @@ class TodoListTasks extends React.Component {
         return (
             <div className="todoList-tasks">
 
-                {tasksEls}
 
+                {tasksEls}
 
                 {/* обекты класса todoListTask*}*/}
                 {/*/!*<TodoListTask title={this.props.tasks[0].title} isDone={this.props.tasks[0].isDone}/>*/}
