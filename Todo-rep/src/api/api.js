@@ -21,7 +21,7 @@ export const api = {
       },
 
        createTodoList (title) {
-        return instance.post("",
+           return instance.post("",
             {title: title},
                    )},
 
@@ -32,9 +32,9 @@ export const api = {
 
 
 //----------------------// как тут изменить IP  на 1.1-----------------------------------------------------------------
-      changeTask(task, updateTask, todoId) {
-        return instance.put (`${todoId}/tasks/${task.id}`,
-            {updateTask}
+      changeTask(taskId, updateTask, todoId) {
+           return instance.put (`${todoId}/tasks/${taskId}`,
+           updateTask
         )
     },
 
@@ -69,10 +69,7 @@ export const api = {
 
     changeTodoTitle (todoId, title) {
      return  instance.put(`/${todoId}`,
-        {title: title}
-        )
-        }
-
+        {title: title} ) }
 
 };
 

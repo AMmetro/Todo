@@ -5,8 +5,11 @@ class TodoListTask extends React.Component {
 
  state = {
     editMode: false,
-    title: this.props.task.title
- };
+    title: this.props.task.title,
+     showDate: false
+    };
+
+
 
     activateEditMode = ()=> {this.setState( {editMode: true} ) };
 
@@ -28,14 +31,22 @@ class TodoListTask extends React.Component {
           this.props.deleteTask(this.props.task.id)
     };
 
+    mouseOnDate = () => {
+        this.setState ({showDate: true})
+    }
+    mouseOutDate = () => {
+        this.setState ({showDate: false})
+    }
 
     render = () => {
 
+
         let classForTask = (this.props.task.status===2) ? "todoList-task done" : "todoList-task";
 
+
         return (
-                <div className="todoList-task">
-                                    <input
+                <div className="todoList-task" onMouseOver={()=>this.mouseOnDate()} onMouseOut={()=>this.mouseOutDate()}>
+                          <input
                         className={classForTask}
                         type="checkbox"
                         // checked={this.props.task.isDone}
@@ -43,7 +54,6 @@ class TodoListTask extends React.Component {
                         onChange={this.onIsDoneChanged}
                           />
 
-                    <span> taskId={this.props.task.id}  </span>
                  {this.state.editMode
                      ? <input
                        value={this.state.title}
@@ -53,8 +63,16 @@ class TodoListTask extends React.Component {
                         />
                      :  <span onClick={this.activateEditMode}> {this.props.task.title},</span>
                  }
-                    <span> priority- {this.props.task.priority}</span>
+                    <span> priority- </span> {this.props.task.priority == 1 ? <span> Hi </span> : <span> Low </span>}
+                    <button onClick={()=>alert("incrise priority")}> !!!! </button>
                     <button onClick={this.onDeleteTask}>x</button>
+
+                    {this.state.showDate ? <span className={"dateWindow"}>was created: {this.props.task.addedDate} </span> :<span> </span> }
+
+
+
+
+
                 </div>
         );
     }

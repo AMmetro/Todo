@@ -4,11 +4,23 @@ import TodoList from './TodoList';
 import AddNewItemForm from "./AddNewItemForm";
 import {connect} from "react-redux";
 import {addTodoTC, getTodoListTC} from "./reducer";
-
-
-
+import PageHeader from "./Header/PageHeader";
+import PageFooter from "./Footer/PageFooter";
+import SideBar from "./SideBar/SadeBar"
+import preloader from "./SideBar/picture/preloader.gif";
 
 class App extends React.Component {
+
+    state={
+        activeTodoListId: null,
+        // statusTask: "activeTask",
+
+
+    };
+
+    changeActiveTask = (id)=> {
+        this.setState({activeTodoListId: id});
+    }
 
     nextTodoListId=2;
     AddTodoList= (title)=> {
@@ -16,6 +28,7 @@ class App extends React.Component {
     };
 
     componentDidMount () {
+
         this._restoreState()
     }
 
@@ -26,22 +39,49 @@ class App extends React.Component {
 
     _restoreState = () => {
         this.props.getTodoList()
-    };
+        };
 
 
     render = () => {
+
         let todoList = this.props.todoList.map (elem => {
-            return <TodoList id={elem.id} title={elem.title} key={elem.id} tasks={elem.tasks} />
+            if (elem.id==this.state.activeTodoListId) {
+                return <TodoList id={elem.id}
+                                 title={elem.title}
+                                 key={elem.id}
+                                 tasks={elem.tasks}
+
+                                               />
+
+            }
         });
 
 
+
         return (
+            <div className="App-container">
 
-            <div className="App">
+                <PageHeader/>
 
-                <AddNewItemForm addItems={this.AddTodoList}/>
+                <AddNewItemForm addItems={this.AddTodoList} />
 
-                {todoList}
+                <SideBar titleList={this.props.todoList}
+                         changeActiveTask={this.changeActiveTask}
+                         activeTodoListId={this.state.activeTodoListId}
+                         statusPreloader={this.props.statusPreloader}
+                 />
+
+                <div className="todoContainer">
+
+
+                    {this.props.statusPreloader ? <p> Loading </p> : <h1> Current task </h1> }
+
+                    {todoList}
+
+                </div>
+
+
+                <PageFooter/>
 
             </div>
         )
@@ -52,34 +92,24 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
 
+
     return {
-        todoList: state.todoList
+        todoList: state.todoList.todoList,
+        statusPreloader: state.todoList.statusPreloader
 
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // addTodo: (newTodoList) => {
-        //     dispatch (addTodoAC(newTodoList))
-        //
-        // },
-
-        // setTodoLists: (todoLists) => {
-        //     dispatch (setTodoListsAC(todoLists))
-        // },
-
-        getTodoList: ()=> {
+            getTodoList: ()=> {
             dispatch (getTodoListTC())
         },
 
+
         AddTodoList: (title)=> {
-            dispatch (addTodoTC(title))
+           dispatch (addTodoTC(title))
         },
-
-
-
-
 
     }
 };

@@ -42,6 +42,7 @@ class AddNewItemForm extends React.Component {
 
         return (
                 <div className={styles.header}>
+                    Add new task list
                      <h1 className="todoList-header__title">{this.props.title}</h1>
                     <div className="todoList-newTaskForm">
                                 <input ref={this.newTaskTitleRef} type="text" placeholder="New task name"
