@@ -214,7 +214,7 @@ const mapDispatchToProps = (dispatch) => {
                  },
 
         changeTodoTitle: (todoId,title) => {
-            debugger
+
            dispatch(changeTodoTitleAC(todoId, title))
                  },
 
