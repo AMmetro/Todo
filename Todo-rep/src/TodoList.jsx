@@ -5,19 +5,9 @@ import TodoListTasks from "./TodoListTasks";
 import TodoListFooter from "./TodoListFooter";
 import TodoListTitle from "./TodoListTitle";
 import {connect} from "react-redux";
-import {
-    ADD_TASK,
-    addTaskAC,
-    CHANGE_TASK,
-    changeTaskAC,
-    DELETE_TASK,
-    DELETE_TODOLIST,
-    deleteTaskAC,
-    changeTodoTitleAC,
-    deleteTodoListAC, setTaskAC
-} from "./reducer";
-import axios from "axios";
-import {api} from "./api/api";
+import { changeTaskAC, changeTodoTitleAC, deleteTodoListAC, setTaskAC, setTaskTC, deleteTaskTC, deleteTodoListTC, addTaskTC, changeTodoTitleTC,
+    changeTaskTC} from "./reducer";
+import preloader from "./SideBar/picture/preloader.gif";
 
 
 class TodoList extends React.Component {
@@ -28,39 +18,25 @@ class TodoList extends React.Component {
     }
 
     _restoreState2 = () => {
-
-
-
-
-        // let todolistId = this.props.id;
-        // api._restoreState2(todolistId)
-        //     .then(res => {
-        //         let tasks = res.data.items;
-        //         this.props.setTasks(todolistId, tasks);
-        //     });
+        let todolistId = this.props.id;
+        this.props.setTasks(todolistId);
         };
 
 
     newTaskTitleRef = React.createRef();
 
     nextTaskId = 0;
-
     state = {
         tasks: [],
-        filterValue: "All"
+        filterValue: "All",
+        statusPreloader: true
     };
 
 
     changeTask = (task, obj) => {
         let updateTask = {...task, ...obj };
         let todoId=this.props.id
-        api.changeTask (task, updateTask, todoId)
-             .then(res => {
-                    if (res.data.resultCode === 0){
-                    let task = res.data.data.item;
-                    this.props.changeTask(task)
-                };
-            });
+        this.props.changeTask(task.id, updateTask, todoId)
     };
 
     changeStatus = (task, isDone) => {
@@ -72,11 +48,8 @@ class TodoList extends React.Component {
     };
 
                   changeTodoTitle = (todoId, title) => {
-                   api.changeTodoTitle(todoId, title)
-                       .then(res => {
-                    this.props.changeTodoTitle(todoId, title);
-                              });
-                    };
+                      this.props.changeTodoTitle(todoId, title);
+                                    };
 
 
     changeFilter = (newFilterValue) => {
@@ -85,53 +58,56 @@ class TodoList extends React.Component {
 
 
     addTask = (newText) => {
-        api.createTask (newText, this.props.id)
-            .then (res => {
-            let newTask = res.data.data.item;
-            this.props.addTask (this.props.id, newTask);
-        });
+
+        let todoId = this.props.id;
+        this.props.addTask (newText,todoId);
     };
 
 
     deleteTodoList = () => {
         let todolistId = this.props.id;
-        api.deleteTodolist(todolistId)
-         .then(res => {
-          if (res.data.resultCode === 0)
-          this.props.deleteTodoList(todolistId)
-        })
-        };
-
+        this.props.deleteTodoList(todolistId)
+    };
 
 
     deleteTask = (taskId) => {
         let todoId = this.props.id;
-        api.deleteTask(taskId,todoId)
-        .then(res => {
-         if (res.data.resultCode === 0)
-         this.props.deleteTask(taskId, todoId)
-        });
+        this.props.deleteTask(taskId, todoId)
     };
-
-
 
 
     render = () => {
 
+
         const {tasks = []} = this.props;
-        return (
-            <div className="App">
-                <div className="todoList">
+
+         return (
+
+                <div className="TodoList">
+
+
 
                     <div>
-                        <TodoListTitle title={this.props.title}
+
+
+                                      <TodoListTitle title={this.props.title}
                                        changeTodoTitle={this.changeTodoTitle}
-                                       todoId={this.props.id}  />
+                                       todoId={this.props.id}
+                                       deleteTodoList={this.deleteTodoList}
+                        />
                         <AddNewItemForm addItems={this.addTask} />
-                        <button onClick={this.deleteTodoList}>x</button>
-                    </div>
+                     </div>
+
+
+
+
+                    {!this.props.tasks ? <img src={preloader}/>  : <h2>  </h2> }
+
+
+
 
                     <TodoListTasks
+
                         changeTitle={this.changeTitle}
                         changeStatus={this.changeStatus}
                         key={this.props.key}
@@ -142,84 +118,69 @@ class TodoList extends React.Component {
                                 return true;
                             }
                             if (this.state.filterValue === "Active") {
-                                return t.isDone === false;
+                                return t.status!=2;
                             }
                             if (this.state.filterValue === "Completed") {
-                                return t.isDone === true;
+                                return t.status===2;
                             }
                         })
                         }
                     />
-
-
                     <TodoListFooter filterValue={this.state.filterValue}
                                     changeFilter={this.changeFilter}/>
 
-                </div>
 
-            </div>
+
+
+
+                </div>
         );
     }
 }
-
-//-----------------------------------------------------------------------------ent
-
-
-// const mapStateToProps = (state) => {
-//     return {
-//         tasks: state.todoList.tasks   - так передает сразу массив и его нужо MAПить
-//     }
-// };
 
 
 const mapDispatchToProps = (dispatch) => {
     return {
 
-        setTasks: (todoListId, tasks) => {
-            dispatch(setTaskAC(todoListId, tasks))
+         setTasks: (todolistId) => {
+            dispatch(setTaskTC(todolistId))
         },
 
+        // setTasks: (todoListId, tasks) => {
+        //     dispatch(setTaskAC(todoListId, tasks))
+        // },
 
-        addTask: (todoId, newTask) => {
-            dispatch(addTaskAC(todoId, newTask))
-            // const action = {
-            //     type: ADD_TASK,
-            //     todoId,
-            //     newTask
-            // };
-            // dispatch(action)
-        },
+        addTask: (newText,todoId) => {
+                   dispatch(addTaskTC(newText,todoId))
+               },
 
         // changeTask: (task, obj, todoId) => {
         //     dispatch(changeTaskAC(task, obj, todoId))
         //     debugger
         // },
 
+//-------------------------------------
 
-        changeTask: (task) => {
-            dispatch(changeTaskAC(task))
-                    },
-
-        deleteTodoList: (todoId) => {
-            dispatch(deleteTodoListAC(todoId))
-            //  const action = {
-            //             //     type: DELETE_TODOLIST,
-            //             //     todoId
-            //             // };
-            //             // dispatch (action)
+        changeTask: (taskId, updateTask, todoId) => {
+            dispatch(changeTaskTC(taskId, updateTask, todoId))
         },
 
+        deleteTodoList: (todoId) => {
+            dispatch(deleteTodoListTC(todoId))
+        },
+
+
         deleteTask: (taskId, todoId) => {
-            dispatch(deleteTaskAC(taskId, todoId))
-                 },
+            dispatch(deleteTaskTC(taskId, todoId))
+        },
+
 
         changeTodoTitle: (todoId,title) => {
-
-           dispatch(changeTodoTitleAC(todoId, title))
+           dispatch(changeTodoTitleTC(todoId, title))
                  },
 
-
     }
+
 };
 
 
