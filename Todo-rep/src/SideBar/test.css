@@ -1,0 +1,22 @@
+
+.SideBar{
+    background-color: yellow;
+    grid-area: s;
+}
+
+.activeTask {
+   color: red;
+}
+
+.passiveTask {
+   color: blue;
+}
+
+.red {
+    color: red;
+}
+
+.black {
+    color: black;
+}
+
