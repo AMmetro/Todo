@@ -8,7 +8,6 @@ class TodoListHeader extends React.Component {
     //     this.newTaskTitleRef = React.createRef();
     // }
 
-
     state = {
         error: true,
         title: ""
