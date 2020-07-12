@@ -20,10 +20,8 @@ class SadeBar extends React.Component {
             }
         })
 
-
-
         return (
-            <div className={styles.blue}>
+            <div className={styles.SideBar}>
 
                  <h1 className={""}>list of tasks:</h1>
                  {this.props.statusPreloader ? <img src={preloader}/> : <h2> {titleList}  </h2> }

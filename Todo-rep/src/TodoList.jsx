@@ -84,12 +84,8 @@ class TodoList extends React.Component {
          return (
 
                 <div className="TodoList">
-
-
-
                     <div>
-
-
+                        <h1> Current task </h1>
                                       <TodoListTitle title={this.props.title}
                                        changeTodoTitle={this.changeTodoTitle}
                                        todoId={this.props.id}

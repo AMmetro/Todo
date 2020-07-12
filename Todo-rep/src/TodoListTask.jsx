@@ -46,6 +46,7 @@ class TodoListTask extends React.Component {
 
         return (
                 <div className="todoList-task" onMouseOver={()=>this.mouseOnDate()} onMouseOut={()=>this.mouseOutDate()}>
+
                     {this.props.numbOfTsk}
                           <input
                         className={classForTask}

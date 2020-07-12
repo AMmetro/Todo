@@ -7,83 +7,110 @@ import {addTodoTC, getTodoListTC} from "./reducer";
 import PageHeader from "./Header/PageHeader";
 import PageFooter from "./Footer/PageFooter";
 import SideBar from "./SideBar/SadeBar"
-import preloader from "./SideBar/picture/preloader.gif";
+import {BrowserRouter, Route} from "react-router-dom";
+import Login from "./Login/Login";
+import Invitation from "./Invitation/Invitation";
+import Settings from "./Settings/Settings";
+
 
 class App extends React.Component {
 
-    state={
+    state = {
         activeTodoListId: null,
+        logged: false,
+        userName: null,
+
         // statusTask: "activeTask",
-
-
     };
 
-    changeActiveTask = (id)=> {
+    changeActiveTask = (id) => {
         this.setState({activeTodoListId: id});
-    }
+    };
 
-    nextTodoListId=2;
-    AddTodoList= (title)=> {
+
+     nextTodoListId = 2;
+    AddTodoList = (title) => {
         this.props.AddTodoList(title)
     };
 
-    componentDidMount () {
+    componentDidMount() {
 
         this._restoreState()
     }
 
-    saveState= ()=> {
-        let StateAsString=JSON.stringify(this.state);
+    saveState = () => {
+        let StateAsString = JSON.stringify(this.state);
         localStorage.setItem("todolists-state", StateAsString);
     };
 
     _restoreState = () => {
         this.props.getTodoList()
-        };
+    };
+
+    inputName = (newName) => {
+        this.setState({userName: newName});
+    };
+
+    toggleLogged=()=> {
+       this.setState({logged: true})
+    };
+
 
 
     render = () => {
 
-        let todoList = this.props.todoList.map (elem => {
-            if (elem.id==this.state.activeTodoListId) {
+
+          let todoList = this.props.todoList.map(elem => {
+            if (elem.id == this.state.activeTodoListId) {
                 return <TodoList id={elem.id}
                                  title={elem.title}
                                  key={elem.id}
                                  tasks={elem.tasks}
-
-                                               />
-
-            }
-        });
-
-
+                />    }       });
 
         return (
-            <div className="App-container">
-
-                <PageHeader/>
-
-                <AddNewItemForm addItems={this.AddTodoList} />
-
-                <SideBar titleList={this.props.todoList}
-                         changeActiveTask={this.changeActiveTask}
-                         activeTodoListId={this.state.activeTodoListId}
-                         statusPreloader={this.props.statusPreloader}
-                 />
-
-                <div className="todoContainer">
+            <BrowserRouter>
+                <div className="App-container">
+                    <PageHeader/>
 
 
-                    {this.props.statusPreloader ? <p> Loading </p> : <h1> Current task </h1> }
 
-                    {todoList}
+                      <AddNewItemForm addItems={this.AddTodoList}/>
 
+                        <Route path='/Todo' render={() =>
+                            <SideBar titleList={this.props.todoList}
+                                     changeActiveTask={this.changeActiveTask}
+                                     activeTodoListId={this.state.activeTodoListId}
+                                     statusPreloader={this.props.statusPreloader}    /> }/>
+
+
+
+
+                    <div className="todoContainer">
+                        <Route path='/Todo' render={() =>
+                            <Invitation userName={this.state.userName}
+                                            />}/>
+                            <Route path='/Login' render={() => <Login
+                                   userName={this.state.userName}
+                                   inputName={this.inputName}
+                                   toggleLogged={this.toggleLogged}
+                                   logged={this.state.logged} />}/>
+                        <Route exact path='/Settings' component={Settings}/>
+
+                        {this.props.statusPreloader ? <p> Loading </p> : false}
+
+
+                        <Route path='/Todo' render={() => <div> {todoList} </div>     }/>
+
+
+                        {this.props.statusPreloader ? <p> Loading </p> : false}
+
+
+
+                    </div>
+                    <PageFooter/>
                 </div>
-
-
-                <PageFooter/>
-
-            </div>
+            </BrowserRouter>
         )
     }
 }
@@ -102,18 +129,17 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-            getTodoList: ()=> {
-            dispatch (getTodoListTC())
+        getTodoList: () => {
+            dispatch(getTodoListTC())
         },
 
 
-        AddTodoList: (title)=> {
-           dispatch (addTodoTC(title))
+        AddTodoList: (title) => {
+            dispatch(addTodoTC(title))
         },
 
     }
 };
-
 
 
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
