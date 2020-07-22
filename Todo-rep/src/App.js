@@ -11,6 +11,8 @@ import {BrowserRouter, Route} from "react-router-dom";
 import Login from "./Login/Login";
 import Invitation from "./Invitation/Invitation";
 import Settings from "./Settings/Settings";
+import MyInputForm from "./Common/MyInputForm/MyInputForm";
+import MyButton from "./Common/MyButton/MyButton";
 
 
 class App extends React.Component {
@@ -73,8 +75,6 @@ class App extends React.Component {
                 <div className="App-container">
                     <PageHeader/>
 
-
-
                       <AddNewItemForm addItems={this.AddTodoList}/>
 
                         <Route path='/Todo' render={() =>
@@ -87,6 +87,8 @@ class App extends React.Component {
 
 
                     <div className="todoContainer">
+
+
                         <Route path='/Todo' render={() =>
                             <Invitation userName={this.state.userName}
                                             />}/>
@@ -95,6 +97,7 @@ class App extends React.Component {
                                    inputName={this.inputName}
                                    toggleLogged={this.toggleLogged}
                                    logged={this.state.logged} />}/>
+
                         <Route exact path='/Settings' component={Settings}/>
 
                         {this.props.statusPreloader ? <p> Loading </p> : false}
@@ -108,7 +111,8 @@ class App extends React.Component {
 
 
                     </div>
-                    <PageFooter/>
+
+                   <PageFooter/>
                 </div>
             </BrowserRouter>
         )
