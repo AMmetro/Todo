@@ -7,7 +7,6 @@ import TodoListTitle from "./TodoListTitle";
 import {connect} from "react-redux";
 import { changeTaskAC, changeTodoTitleAC, deleteTodoListAC, setTaskAC, setTaskTC, deleteTaskTC, deleteTodoListTC, addTaskTC, changeTodoTitleTC,
     changeTaskTC} from "./reducer";
-import preloader from "./SideBar/picture/preloader.gif";
 
 
 class TodoList extends React.Component {
@@ -28,8 +27,7 @@ class TodoList extends React.Component {
     nextTaskId = 0;
     state = {
         tasks: [],
-        filterValue: "All",
-        statusPreloader: true
+        filterValue: "All"
     };
 
 
@@ -81,26 +79,18 @@ class TodoList extends React.Component {
 
         const {tasks = []} = this.props;
 
-         return (
+
+        return (
 
                 <div className="TodoList">
                     <div>
-                        <h1> Current task </h1>
-                                      <TodoListTitle title={this.props.title}
+                        <TodoListTitle title={this.props.title}
                                        changeTodoTitle={this.changeTodoTitle}
                                        todoId={this.props.id}
                                        deleteTodoList={this.deleteTodoList}
                         />
                         <AddNewItemForm addItems={this.addTask} />
                      </div>
-
-
-
-
-                    {!this.props.tasks ? <img src={preloader}/>  : <h2>  </h2> }
-
-
-
 
                     <TodoListTasks
 
@@ -124,11 +114,6 @@ class TodoList extends React.Component {
                     />
                     <TodoListFooter filterValue={this.state.filterValue}
                                     changeFilter={this.changeFilter}/>
-
-
-
-
-
                 </div>
         );
     }

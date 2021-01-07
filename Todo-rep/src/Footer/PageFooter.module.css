@@ -2,5 +2,17 @@
 .footer{
     background-color: greenyellow;
     grid-area: f;
+    height: 150px;
+     position: relative;
+     dispaly: flex;
+    /*flex-direction: column;*/
+}
+
+.active {
+    color: blue;
+}
+
+.passive {
+    color: darkgray;
 }
 

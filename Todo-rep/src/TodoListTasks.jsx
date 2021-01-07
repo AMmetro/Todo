@@ -5,27 +5,26 @@ import TodoListTask from "./TodoListTask";
 
 class TodoListTasks extends React.Component {
 
-      render = () => {
+    render = () => {
+
+
 
         // здесь получаем массив компонентов
 
 
-            let tasksEls = this.props.tasks.map( (t,i)=>  <TodoListTask
+
+         let tasksEls = this.props.tasks.map( t=> <TodoListTask
                          task={t}
-                         numbOfTsk = {i}
                                                       // title={t.title}
                                                       // isDone={t.isDone}
                                                       // priority={t.priority}
-
              changeStatus={this.props.changeStatus}
              changeTitle={this.props.changeTitle}
              key={this.props.key}
              deleteTask={this.props.deleteTask}
+
          />
          );
-
-
-
 
         // запись  аналогична сокращенной
         // let tasksEls = this.props.tasks.map(t=> <TodoListTask title={t.title} isDone={t.isDone}/>);
@@ -33,7 +32,6 @@ class TodoListTasks extends React.Component {
 
         return (
             <div className="todoList-tasks">
-
 
                 {tasksEls}
 

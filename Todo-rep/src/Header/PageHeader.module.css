@@ -1,63 +1,7 @@
 
-.header{
+.header {
     background-color: red;
     grid-area: h;
+    width: 100%;
 }
-
-.nameHeader {
-    width: 400px;
-    float:left;
-    height:100px;
-    text-align: center;
-}
-
-.btnMenuWrapper {
-    background-color: yellow;
-    width: 100px;
-    float:left;
-    height:25px;
-    margin:30px;
-    position: relative;
-    display: inline-block;
-    border-width:2px;
-    border-style:solid;
-    border-color:black;
-    border-radius: 10px;
-}
-
-.dropdownContentCSS {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-.dropdownContentCSS a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.btnMenuWrapper:hover .dropdownContentCSS {
-    display: block;
-}
-
-.red {
-    color: red;
-}
-
-.black {
-    color: yellow;
-}
-
-.blue {
-    color: greenyellow;
-}
-
-
-
-
 

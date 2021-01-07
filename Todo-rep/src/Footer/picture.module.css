@@ -1,0 +1,10 @@
+
+.footerImg{
+    background-color: greenyellow;
+    height: 150px;
+     position: relative;
+     dispaly: flex;
+     /*flex-direction: column;*/
+}
+
+

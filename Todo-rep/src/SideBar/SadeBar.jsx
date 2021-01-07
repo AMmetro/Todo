@@ -1,8 +1,11 @@
 import React from 'react';
 import styles from './SideBar.module.css';
-import preloader from "./picture/preloader.gif"
 
 class SadeBar extends React.Component {
+
+    state = {
+        filterCss: styles.red
+    };
 
 
     render = () => {
@@ -20,17 +23,35 @@ class SadeBar extends React.Component {
             }
         })
 
+
+        let red = () => {
+            this.setState({filterCss: styles.red})
+        }
+        let black = () => {
+            this.setState({filterCss: styles.blue})
+        }
+
+
         return (
-            <div className={styles.SideBar}>
+            <div className={`${this.state.filterCss}`}>
 
-                 <h1 className={""}>List of tasks:</h1>
-                 {this.props.statusPreloader ? <img src={preloader}/> : <h2> {titleList}  </h2> }
+            <button onClick={red}> red</button>
+                <button onClick={black}> blue</button>
 
+                <h1 className={this.state.filterCss}>list of tasks:</h1>
 
+                {/*<h1 className={styles.red}>list of tasks:</h1>*/}
 
+                <h2> {titleList}  </h2>
             </div>
         );
     }
+
+
+    // Array.filter(element => {
+    // if (element.id === (element-1).Id) {
+    //     return element;
+    //    }
 
 }
 

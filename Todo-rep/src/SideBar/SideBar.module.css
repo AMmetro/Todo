@@ -9,5 +9,18 @@
 }
 
 .passiveTask {
-    color: blue
+   color: blue;
 }
+
+.red {
+    color: red;
+}
+
+.black {
+    color: yellow;
+}
+
+.blue {
+    color: greenyellow;
+}
+

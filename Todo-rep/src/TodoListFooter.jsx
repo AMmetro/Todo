@@ -30,8 +30,6 @@ class TodoListFooter extends React.Component {
 
             <div className="todoList-footer">
 
-
-
                 {!this.state.isHidden &&
                 <>
                  <ButtonFooter title={"All"} BtnClass={classForAll} onClickFunction={ this.onAllFilterClick  }/>

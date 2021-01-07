@@ -1,0 +1,16 @@
+
+.header {
+   grid-area: h;
+    width: 100%;
+}
+
+.active {
+    color: red;
+    background-color: mediumvioletred;
+}
+
+.passive {
+    color: red;
+    background-color: gray;
+}
+

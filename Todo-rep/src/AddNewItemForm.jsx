@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './Header.module.css'
-import MyButton from "./Common/MyButton/MyButton";
 
 
 class AddNewItemForm extends React.Component {
@@ -16,7 +15,7 @@ class AddNewItemForm extends React.Component {
         }
     };
 
-    buttonClick = ()=> {
+  onAddItemClick = ()=> {
       let newTitle=this.state.title;
       this.setState({title:""});
 
@@ -46,15 +45,10 @@ class AddNewItemForm extends React.Component {
                     Add new task list
                      <h1 className="todoList-header__title">{this.props.title}</h1>
                     <div className="todoList-newTaskForm">
-                                <input
-                                    // ref={this.newTaskTitleRef}
-                                  type="text" placeholder="New task name"
-                                  className={classForInput} onChange={this.onTitleChanged}
-                                  onKeyPress={this.pressEnter} value={this.state.title}/>
-
-
-                                 <MyButton buttonClick={this.buttonClick}/>
-
+                                <input ref={this.newTaskTitleRef} type="text" placeholder="New task name"
+                                 className={classForInput} onChange={this.onTitleChanged}
+                                 onKeyPress={this.pressEnter} value={this.state.title}/>
+                            <button onClick={this.onAddItemClick} >Add</button>
                       </div>
 
 
